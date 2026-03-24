@@ -1,0 +1,149 @@
+Power BI Steps:
+
+# Data Set upload: Go to get data ---> Choose the Data set D:\Elevate Labs\HR Analytics - Predict Employee Attrition\Data set 
+--> Transform data if need to add any columns or load the cleaned data. 
+
+Phase 1: Adding Conditional Column
+
+Go to Home → Transform Data (Power Query Editor).
+Click Add Column → Conditional Column.
+Configure:
+New column name: Attrition_Count
+Column name: Attrition
+Operator: equals
+Value: "Yes"
+Output: 1
+Else: 0
+Click OK.
+
+Created a helper column Attrition_Count in Power Query using conditional logic (Yes = 1, No = 0) to enable attrition rate calculations and KPI analysis.
+
+Phase 2: Key Metrics (DAX Measures) in Power BI:
+
+Step 1: Create a Measures Table
+Create New Table (for organizing measures)
+Go to Modeling → New Table and write:
+_Measures = { "Key Metrics" }
+
+After creating it:
+Hide the column.
+Create all measures inside this _Measures table.
+
+Created a dedicated _Measures table to centrally manage all KPI DAX measures for better dashboard organization and model clarity.
+
+Step 2: Create DAX Measures
+Go to Modeling → New Measure and create the following:
+
+1️⃣ Total Employees
+Total Employees = COUNTROWS('Table')
+
+Project Note:
+Calculated total employee count using COUNTROWS to determine overall workforce size.
+
+2️⃣ Attrition Count
+Attrition Count =
+CALCULATE(
+    [Total Employees],
+    'Table'[Attrition] = "Yes"
+)
+
+Project Note:
+Computed total attrition cases using CALCULATE with filter condition (Attrition = "Yes").
+
+3️⃣ Attrition Rate (%)
+Attrition Rate =
+DIVIDE(
+    [Attrition Count],
+    [Total Employees],
+    0
+)
+
+After creating:
+Change format → Percentage.
+
+Project Note:
+Derived attrition rate by dividing attrition count by total employees using DIVIDE for safe error handling.
+
+4️⃣ Average Tenure
+Avg Tenure = AVERAGE('Table'[YearsAtCompany])
+
+Project Note:
+Calculated average employee tenure using AVERAGE function on YearsAtCompany column.
+
+Go to Modeling → New Measure and write:
+Active Employees = [Total Employees] - [Attrition Count]
+
+Project Note:
+Calculated Active Employees by subtracting attrition count from total employees to represent the current workforce strength for KPI monitoring.
+
+Why This Structure Is Important.
+
+COUNTROWS → Base workforce metric
+CALCULATE → Applies filter context
+DIVIDE → Prevents divide-by-zero errors
+Measures table → Best practice for clean data modeling
+
+Phase 3: Dashboard Layout & Visualizations
+
+Step 1:  KPI Cards: 
+
+Use Multi-row cards or individual Cards for:
+Total Employees (1,480)
+Attrition Rate (16.08%)
+Active Employees (1,242)
+Avg Monthly Income (\approx \$6,500)
+
+Step 2: Key Attrition Factors (Visuals):
+
+Attrition by Department (Stacked Bar Chart):
+Visual Type: Stacked Bar Chart
+Axis (Y-Axis): Department
+Values (X-Axis): Attrition Count (measure)
+Legend: Attrition (Yes / No)
+
+Project Note
+Insight:      Department-wise         Attrition Rate
+              Department	            Attrition Rate
+              Sales	                  20.67% 🔺 Highest
+              Human Resources        	19.05%
+              Research & Development	13.75%
+Designed a stacked bar chart to compare department-wise attrition distribution, enabling identification of high-turnover departments and workforce stability patterns.
+The Sales department recorded the highest attrition rate (20.67%), exceeding the company average (16.19%), indicating a potential need for targeted retention and engagement strategies in Sales.
+Sales Department (20.67%) has the highest attrition rate.
+
+Impact of Overtime (Donut Chart):
+Legend: OverTime
+Values: Attrition Rate
+
+Insight: 
+OverTime - Yes: Employees who work overtime represent 74.72% of the total population in the dataset, and their attrition rate is 30.62%.
+OverTime - No: Employees who do not work overtime represent 25.28% of the total population, and their attrition rate is 10.36%.
+
+Attrition by Age Group (Clustered Column Chart):
+Axis: AgeGroup (18-25, 26-35, etc.)
+Values: Attrition Rate
+
+Insight: Age Group of 18-25 are the highest Attrition rate of nearly 42%,  26-35 has 25.33% Attrition rate. 
+
+Monthly Income vs. Attrition (Scatter Plot):
+X-Axis: MonthlyIncome
+Y-Axis: Age
+Color: Attrition
+
+Insight: The company’s attrition rate stands at 16.19%, with Sales showing the highest attrition (20.67%). Attrition is significantly higher among younger employees earning lower monthly income, highlighting compensation and early-career engagement as critical areas for retention strategy improvement.
+
+3. Employee Satisfaction & Environment
+
+Satisfaction Heatmap (Matrix):
+Rows: JobRole
+Columns: JobSatisfaction (Low to Very High)
+Values: Attrition Rate
+Formatting: Use Conditional Formatting (Red for high attrition, Green for low).
+
+The Satisfaction Heatmap reveals a strong inverse relationship between job satisfaction and attrition rate. Attrition is highest among employees with low job satisfaction, particularly in Sales-related roles. Improving engagement, recognition, and career growth opportunities in these roles can significantly reduce turnover risk.
+
+Tenure Analysis (Line Chart):
+Axis: YearsAtCompany
+Values: Attrition Count
+Insight: Discover the "Peak Departure Year" (often year 1 or 2).
+

@@ -1,0 +1,32 @@
+Data set download link: https://www.kaggle.com/datasets/mnassrib/telecom-churn-datasets?utm_source=chatgpt.com
+
+It contains:
+Call Duration
+Customer Service Calls (Complaints proxy)
+Usage-based features
+Churn column
+
+You can easily create:
+Total Call Duration = Day + Eve + Night minutes
+Complaint Flag = Customer Service Calls > 3
+Recharge Frequency (can be derived if transaction data exists)
+
+Added the total call duration in the with these 
+
+Example (Common Format)
+
+If:
+Day Minutes → Column F
+Evening Minutes → Column G
+Night Minutes → Column H
+Then in Column I (Total Call Duration) enter:
+=F2+G2+H2
+
+
+Complaint Flag = Customer Service Calls > 3
+If Customer Service Calls is in column C, then in row 2 enter:
+=IF(C2>3,"1","0")
+
+# What This Does:
+If Customer Service Calls > 3 → Yes  0r "1" as (High complaints)  1 = High Complaint Customer
+If ≤ 3 → No or "0" (Normal level) 0 = Normal Customer
