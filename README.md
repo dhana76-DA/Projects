@@ -7,3 +7,5 @@ Have all the project links in this folder
 # Project 2: https://github.com/dhana76-DA/Customer-Lifetime-Value-Prediction-Model
 
 # Project 3: https://github.com/dhana76-DA/HR-Analytics---Predict-Employee-Attrition
+
+In the folder of the Projects it have all the deatils and documents of the project completion. 
