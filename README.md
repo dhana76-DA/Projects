@@ -10,4 +10,6 @@ Have all the project links in this folder
 
 # Project 4: https://github.com/dhana76-DA/Healthcare-Appointment-No-Show-Prediction
 
+# Project 5: https://github.com/dhana76-DA/LinkedIn-Job-Trend-Analysis-Web-Scraping-
+
 In the folder of the Projects it have all the deatils and documents of the project completion. 
